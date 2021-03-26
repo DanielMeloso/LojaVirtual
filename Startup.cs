@@ -35,6 +35,7 @@ namespace LojaVirtual
              */
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<INewsletterRepository, NewsletterRepository>();
+            services.AddScoped<IColaboradorRepository, ColaboradorRepository>();
 
             // Session -> Configuração
             services.AddMemoryCache(); // Guardar os dados na memória

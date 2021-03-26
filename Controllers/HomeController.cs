@@ -11,6 +11,7 @@ using LojaVirtual.Database;
 using LojaVirtual.Repositories.Contracts;
 using Microsoft.AspNetCore.Http;
 using LojaVirtual.Libraries.Login;
+using LojaVirtual.Libraries.Filtro;
 
 namespace LojaVirtual.Controllers
 {
@@ -122,17 +123,10 @@ namespace LojaVirtual.Controllers
         }
 
         [HttpGet]
+        [ClienteAutorizacao] //filtro
         public IActionResult Painel()
         {
-            Cliente cliente = _loginCliente.GetCliente();
-            if (cliente != null)
-            {
-                return new ContentResult() { Content = "Acesso CONCEDIDO: " + cliente.Email };
-            }
-            else
-            {
-                return new ContentResult() { Content = "Acesso NEGADO: "};
-            }           
+            return new ContentResult() {Content = "painel do cliente"};          
         }
 
         [HttpGet]
