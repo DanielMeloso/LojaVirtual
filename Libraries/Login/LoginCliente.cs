@@ -19,8 +19,8 @@ namespace LojaVirtual.Libraries.Login
         {
             // Armazenar na sessão
             // Serializar - Usando Newtonsoft.json
-            string ClienteJsonString = JsonConvert.SerializeObject(cliente); //converte objeto em string
-            _sessao.Cadastrar(Key, ClienteJsonString);
+            string clienteJsonString = JsonConvert.SerializeObject(cliente); //converte objeto em string
+            _sessao.Cadastrar(Key, clienteJsonString);
         }
         public Cliente GetCliente()
         {
