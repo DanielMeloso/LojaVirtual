@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Filters;
 using LojaVirtual.Libraries.Login;
 using LojaVirtual.Models;
 using Microsoft.AspNetCore.Mvc;
