@@ -129,4 +129,19 @@
   <data name="MSG_E004" xml:space="preserve">
     <value>O campo {0} não é válido!</value>
   </data>
+  <data name="MSG_E005" xml:space="preserve">
+    <value>Os campos {0} e {1} não podem ser diferentes!</value>
+  </data>
+  <data name="MSG_S001" xml:space="preserve">
+    <value>Registro salvo com sucesso!</value>
+  </data>
+  <data name="MSG_S002" xml:space="preserve">
+    <value>Registro atualizado com sucesso!</value>
+  </data>
+  <data name="MSG_S003" xml:space="preserve">
+    <value>Registro excluído com sucesso!</value>
+  </data>
+  <data name="MSG_S004" xml:space="preserve">
+    <value>Senha enviada para o email do colaborador com sucesso!</value>
+  </data>
 </root>

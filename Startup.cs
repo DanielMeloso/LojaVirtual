@@ -15,6 +15,10 @@ using LojaVirtual.Repositories;
 using LojaVirtual.Repositories.Contracts;
 using LojaVirtual.Libraries.Sessao;
 using LojaVirtual.Libraries.Login;
+using System.Net.Mail;
+using System.Net;
+using LojaVirtual.Libraries.Email;
+using LojaVirtual.Libraries.Middleware;
 
 namespace LojaVirtual
 {
@@ -37,6 +41,30 @@ namespace LojaVirtual
             services.AddScoped<INewsletterRepository, NewsletterRepository>();
             services.AddScoped<IColaboradorRepository, ColaboradorRepository>();
             services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+
+            /*
+             * SMTP -> Servidor que irá enviar a mensagem.
+             * https://www.google.com/settings/security/lesssecureapps -> habilitar app menos seguros
+             */
+            services.AddScoped<SmtpClient>(options => {
+                SmtpClient smtp = new SmtpClient()
+                {
+                    //Host = Configuration.GetValue<string>("Email:ServidorSMTP"),
+                    //Port = Configuration.GetValue<int>("Email:ServidorPorta"),
+                    //UseDefaultCredentials = false,
+                    //Credentials = new NetworkCredential(Configuration.GetValue<string>("Email:EmailEnvio"),Configuration.GetValue<string>("Email:SenhaEmail")),
+                    //EnableSsl = true
+
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential("daniel.crescer@gmail.com", "905906abc"),
+                    EnableSsl = true
+                };
+                return smtp;
+            });
+            services.AddScoped<GerenciarEmail>();
+
 
             // Session -> Configuração
             services.AddMemoryCache(); // Guardar os dados na memória
@@ -72,6 +100,9 @@ namespace LojaVirtual
             //app.UseDefaultFiles(); //usar arquivo padrão
             app.UseStaticFiles();
             app.UseSession();
+            // classe criada para bloquear requisições de fora da aplicação.
+            // com essa classe, bloqueia tanto requisições POST quanto GET
+            app.UseMiddleware<ValidateAntiForgeryTokenMiddleware>();
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>

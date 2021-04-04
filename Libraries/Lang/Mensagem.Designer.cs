@@ -95,5 +95,50 @@ namespace LojaVirtual.Libraries.Lang {
                 return ResourceManager.GetString("MSG_E004", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Os campos {0} e {1} não podem ser diferentes!.
+        /// </summary>
+        public static string MSG_E005 {
+            get {
+                return ResourceManager.GetString("MSG_E005", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Registro salvo com sucesso!.
+        /// </summary>
+        public static string MSG_S001 {
+            get {
+                return ResourceManager.GetString("MSG_S001", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Registro atualizado com sucesso!.
+        /// </summary>
+        public static string MSG_S002 {
+            get {
+                return ResourceManager.GetString("MSG_S002", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Registro excluído com sucesso!.
+        /// </summary>
+        public static string MSG_S003 {
+            get {
+                return ResourceManager.GetString("MSG_S003", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Senha enviada para o email do colaborador com sucesso!.
+        /// </summary>
+        public static string MSG_S004 {
+            get {
+                return ResourceManager.GetString("MSG_S004", resourceCulture);
+            }
+        }
     }
 }

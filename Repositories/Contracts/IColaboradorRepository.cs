@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace LojaVirtual.Repositories.Contracts
 {
@@ -12,9 +13,12 @@ namespace LojaVirtual.Repositories.Contracts
 
         void Cadastrar(Colaborador colaborador);
         void Atualizar(Colaborador colaborador);
+        void AtualizarSenha(Colaborador colaborador);
         void Excluir(int Id);
         Colaborador ObterColaborador(int Id);
+        List<Colaborador> ObterColaboradorPorEmail(string Email);
         IEnumerable<Colaborador> ObterTodosColaboradores();
+        IPagedList<Colaborador> ObterTodosColaboradores(int? pagina);
 
     }
 }
