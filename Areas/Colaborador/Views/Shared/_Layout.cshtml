@@ -10,6 +10,8 @@
     <meta name="generator" content="Hugo 0.82.0">
     <title>@ViewBag.Title</title>
 
+    <link rel="stylesheet" href="~/css/StyleSheet.css" />
+
     <!-- Bootstrap core CSS -->
     <link href="~/resources/lib/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/resources/lib/pagedlist/PagedList.css" rel="stylesheet" type="text/css">
@@ -25,19 +27,19 @@
 
 
     <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @@media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
         }
-      }
+
+        @@media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
     </style>
 
 
@@ -81,8 +83,8 @@
                                 Produtos
                             </a>
                         </li>
-                        @if (colaborador.GetColaborador().Tipo == "G") 
-                        { 
+                        @if (colaborador.GetColaborador() != null && colaborador.GetColaborador().Tipo == "G")
+                        {
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Colaborador" asp-action="Index">
                                     <span data-feather="users"></span>
@@ -153,11 +155,13 @@
 
 
     <script src="/resources/lib/jquery3.3.1/jquery-3.3.1.min.js"></script>
-    <script>window.JQuery || document.write('<script src = "/resources/lib/jquery3.3.1/jquery-3.3.1.min.js"')</script>
-    <script src="~/js/Actions.js"></script>
+    <script>window.JQuery || document.write('<script src = "/resources/lib/jquery3.3.1/jquery-3.3.1.min.js"><\/script')</script>
+    <!-- máscaras em JS site documentação > igorescobar.github.io/jQuery-Mask-Plugin/docs.html-->
+    <script src="~/resources/lib/JsMask/jquery.mask.min.js"></script>
     <script src="~/resources/lib/bootstrap-4.2.1-dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/resources/lib/feather/feather.js"></script>
     <script src="~/resources/lib/charts/charts.js"></script>
     <script src="~/resources/lib/dashboard/dashboard.js"></script>
+    <script src="~/js/Actions.js"></script>
 </body>
 </html>

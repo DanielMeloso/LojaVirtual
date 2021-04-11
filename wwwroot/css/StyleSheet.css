@@ -5,3 +5,19 @@
     color: red;
     display: block;
 }
+
+
+.imagens .btn-imagem-excluir {
+    width: 100% !important;
+    margin-bottom: 30px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.imagens .div{
+    text-align: center;
+}
+
+.imagens .img-thumbnail{
+    width: 100%;
+}
