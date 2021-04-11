@@ -59,6 +59,5 @@ namespace LojaVirtual.Models
 
         public virtual ICollection<Imagem> Imagens { get; set; }
          
-
     }
 }
