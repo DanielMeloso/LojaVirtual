@@ -1,4 +1,5 @@
-﻿using LojaVirtual.Libraries.Lang;
+﻿using LojaVirtual.Libraries.Arquivo;
+using LojaVirtual.Libraries.Lang;
 using LojaVirtual.Models;
 using LojaVirtual.Repositories.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +16,12 @@ namespace LojaVirtual.Areas.Colaborador.Controllers
     {
         private IProdutoRepository _produtoRepository;
         private ICategoriaRepository _categoriaRepository;
-        public ProdutoController(IProdutoRepository produtoRepository, ICategoriaRepository categoriaRepository)
+        private IImagemRepository _imagemRepository;
+        public ProdutoController(IProdutoRepository produtoRepository, ICategoriaRepository categoriaRepository, IImagemRepository imagemRepository)
         {
             _produtoRepository = produtoRepository;
             _categoriaRepository = categoriaRepository;
+            _imagemRepository = imagemRepository;
         }
         public IActionResult Index(int? pagina, string pesquisa)
         {
@@ -39,15 +42,31 @@ namespace LojaVirtual.Areas.Colaborador.Controllers
         {
             if (ModelState.IsValid)
             {
+                // salvar as informações do produto no banco de dados
                 _produtoRepository.Cadastrar(produto);
-                TempData["MSG_S"] = Mensagem.MSG_S001;
 
+                //CaminhoTempo -> Mover a imagem para o caminho definitivo
+                List<Imagem> ListaImagensDef = GerenciadorArquivo.MoverImagensProduto(
+                    new List<string>(Request.Form["imagem"]), //caminhos temporários das imagens
+                    produto.Id
+                    );
+
+                //Salvar o caminho definitivo de todas as imagens e salvar no banco de dados
+                _imagemRepository.CadastrarImagens(ListaImagensDef, produto.Id);
+
+                TempData["MSG_S"] = Mensagem.MSG_S001;
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewBag.Categorias = _categoriaRepository.ObterTodasCategorias()
-                .Select(a => new SelectListItem(a.Nome, a.Id.ToString()));
-            return View();
+            else
+            {
+                ViewBag.Categorias = _categoriaRepository.ObterTodasCategorias()
+                    .Select(a => new SelectListItem(a.Nome, a.Id.ToString()));
+                // Retornar as listas de imagens para a tela quando houver problema na validação das informações
+                produto.Imagens = new List<string>(Request.Form["imagem"])
+                    .Where(a => a.Trim().Length > 0) // pegar somente as imagens com conteudo
+                    .Select(a => new Imagem() { Caminho = a }).ToList();
+                return View(produto);
+            }
         }
 
         [HttpGet]
@@ -76,3 +95,4 @@ namespace LojaVirtual.Areas.Colaborador.Controllers
         }
     }
 }
+// Continuar módulo 15 aula 40

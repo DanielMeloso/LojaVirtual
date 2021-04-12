@@ -9,9 +9,16 @@
 
 .imagens .btn-imagem-excluir {
     width: 100% !important;
-    margin-bottom: 30px;
     border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
+    border-top-right-radius: 0px;    
+}
+
+.imagens .col-md-2 {
+    margin-bottom: 30px;
+}
+
+.imagens .btn-ocultar {
+    display: none;
 }
 
 .imagens .div{
@@ -22,10 +29,14 @@
     width: 100%;
 }
 
-.input-file{
+.imagens .input-file {
     display: none;
 }
 
-.img-upload{
+.imagens .img-upload {
     cursor: pointer;
+}
+
+.imagens input[name=imagem]{
+    display: none;
 }
