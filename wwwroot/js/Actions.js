@@ -13,7 +13,7 @@
 
 function AjaxUpdaloadImagemProduto() {
     $(".img-upload").click(function () {
-        $(this).parent().find(".input-file").click();
+        $(this).parent().parent().find(".input-file").click();
     });
 
     $(".btn-imagem-excluir").click(function () {
@@ -46,6 +46,11 @@ function AjaxUpdaloadImagemProduto() {
         var CampoHidden = $(this).parent().find("input[name=imagem]");
         var Imagem = $(this).parent().find(".img-upload");
         var BtnExcluir = $(this).parent().find(".btn-imagem-excluir");
+
+        // Apresenta gif Loading.
+        Imagem.attr("src", "/img/loading.gif");
+        Imagem.addClass("thumb");
+
         // Requisição Ajax enviando o formulário (imagem)
         $.ajax({
             type: "POST",
@@ -55,10 +60,13 @@ function AjaxUpdaloadImagemProduto() {
             processData: false, // desabilitar validação do formulário.
             error: function () {
                 alert("Erro no envio do arquivo!");
+                Imagem.attr("src", "/img/imagem-padrao.png");
+                Imagem.removeClass("thumb");
             },
             success: function (data) {
                 var caminho = data.caminho;
                 Imagem.attr("src", caminho);
+                Imagem.removeClass("thumb");
                 CampoHidden.val(caminho);
                 BtnExcluir.removeClass("btn-ocultar");
             }

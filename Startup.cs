@@ -81,6 +81,13 @@ namespace LojaVirtual
             services.AddScoped<LoginCliente>();
             services.AddScoped<LoginColaborador>();
 
+            services.AddMvc(
+                options =>
+                {
+                    options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(x => "O campo não pode ser vazio!");
+                }
+                );
+
             string connection = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False; Database=LojaVirtual";
             services.AddDbContext<LojaVirtualContext>(options => options.UseSqlServer(connection)); 
             services.AddControllersWithViews();
