@@ -42,7 +42,6 @@
             </tbody>
         </table>
     </div>
-
     @Html.PagedListPager((IPagedList)Model, pagina => Url.Action("Index", new { pagina }))
 }
 else

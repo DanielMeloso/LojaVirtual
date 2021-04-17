@@ -12,6 +12,7 @@ using LojaVirtual.Repositories.Contracts;
 using Microsoft.AspNetCore.Http;
 using LojaVirtual.Libraries.Login;
 using LojaVirtual.Libraries.Filtro;
+using LojaVirtual.Models.ViewModels;
 
 namespace LojaVirtual.Controllers
 {
@@ -22,22 +23,25 @@ namespace LojaVirtual.Controllers
         private INewsletterRepository _repositoryNewsletter;
         private LoginCliente _loginCliente;
         private GerenciarEmail _gerenciarEmail;
-        public HomeController(IClienteRepository repositoryCliente, INewsletterRepository repositoryNewsletter, LoginCliente loginCliente, GerenciarEmail gerenciarEmail)
+        private IProdutoRepository _produtoRepository;
+        public HomeController(IProdutoRepository produtoRepository, IClienteRepository repositoryCliente, INewsletterRepository repositoryNewsletter, LoginCliente loginCliente, GerenciarEmail gerenciarEmail)
         {
             _repositoryCliente = repositoryCliente;    
             _repositoryNewsletter = repositoryNewsletter;
             _loginCliente = loginCliente;
             _gerenciarEmail = gerenciarEmail;
+            _produtoRepository = produtoRepository;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(int? pagina, string pesquisa)
         {
-            return View();
+            var viewmodel = new IndexViewModel() { lista = _produtoRepository.ObterTodosProdutos(pagina, pesquisa) };
+            return View(viewmodel);
         }
 
         [HttpPost]
-        public IActionResult Index([FromForm]NewsletterEmail newsletter)
+        public IActionResult Index(int? pagina, string pesquisa,[FromForm]NewsletterEmail newsletter)
         {
             if (ModelState.IsValid)
             {
@@ -49,12 +53,14 @@ namespace LojaVirtual.Controllers
             }
             else
             {
-                return View();
+                var viewmodel = new IndexViewModel() { lista = _produtoRepository.ObterTodosProdutos(pagina, pesquisa) };
+                return View(viewmodel);
             }
         }
 
         public IActionResult Categoria()
         {
+
             return View();
         }
 
