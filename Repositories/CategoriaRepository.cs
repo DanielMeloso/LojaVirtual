@@ -43,6 +43,38 @@ namespace LojaVirtual.Repositories
             return _banco.Categorias.Find(Id);
         }
 
+        public Categoria ObterCategoria(string slug)
+        {
+            return _banco.Categorias.Where(a => a.Slug == slug).FirstOrDefault();
+        }
+
+        private List<Categoria> Categorias;
+        private List<Categoria> listaCategoriaRecursiva = new List<Categoria>();
+        public IEnumerable<Categoria> ObterCategoriasRecursivas(Categoria categoriaPai)
+        {
+            // para que não seja obtido todas as categorias sempre que a recursividade seja executada
+            if (Categorias == null)
+            {
+                Categorias = ObterTodasCategorias().ToList();
+            }
+
+            if (!listaCategoriaRecursiva.Exists(a => a.Id == categoriaPai.Id))
+            {
+                listaCategoriaRecursiva.Add(categoriaPai);
+            }
+            var listaCategoriaFilho = Categorias.Where(a => a.CategoriaPaiId == categoriaPai.Id);
+            if (listaCategoriaFilho.Count() > 0)
+            {
+                listaCategoriaRecursiva.AddRange(listaCategoriaFilho.ToList());
+                foreach (var cat in listaCategoriaFilho)
+                {
+                    ObterCategoriasRecursivas(cat);
+                }
+            }
+
+            return listaCategoriaRecursiva;
+        }
+
         public IPagedList<Categoria> ObterTodasCategorias(int? pagina)
         {
             int NumeroPagina = pagina ?? 1;

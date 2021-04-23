@@ -50,10 +50,10 @@ namespace LojaVirtual.Repositories
 
         public IPagedList<Produto> ObterTodosProdutos(int? pagina, string pesquisa)
         {
-            return ObterTodosProdutos(pagina, pesquisa, "A");
+            return ObterTodosProdutos(pagina, pesquisa, "A", null);
         }
 
-        public IPagedList<Produto> ObterTodosProdutos(int? pagina, string pesquisa, string ordenacao)
+        public IPagedList<Produto> ObterTodosProdutos(int? pagina, string pesquisa, string ordenacao, IEnumerable<Categoria> categorias)
         {
             int NumeroPagina = pagina ?? 1;
             var bancoProduto = _banco.Produtos.AsQueryable();
@@ -74,6 +74,12 @@ namespace LojaVirtual.Repositories
             if (ordenacao == "MA")
             {
                 bancoProduto = bancoProduto.OrderByDescending(a => a.Valor);
+            }
+
+            if (categorias != null && categorias.Count() > 0)
+            {
+                // SQL -> Where CategoriaId in (1,5,...)
+                bancoProduto = bancoProduto.Where(a => categorias.Select(b => b.Id).Contains(a.CategoriaId));
             }
 
             return bancoProduto

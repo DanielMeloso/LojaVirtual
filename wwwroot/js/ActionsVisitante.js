@@ -18,6 +18,7 @@ function MudarOrdenacao() {
         var Pagina = 1;
         var Pesquisa = "";
         var Ordenacao = $(this).val(); //pega a ordenação do campo com id ordenacao
+        var Fragmento = "#posicao-produto"
 
         var QueryString = new URLSearchParams(window.location.search);
         if (QueryString.has("pagina")) {
@@ -26,12 +27,15 @@ function MudarOrdenacao() {
         if (QueryString.has("pesquisa")) {
             Pesquisa = QueryString.get("pesquisa");
         }
+        if ($("#breadcrumb").length > 0) {
+            Fragmento = "";
+        }
 
         // buscando a URL atual da página
         var url = window.location.protocol + "//" + window.location.host + window.location.pathname;
 
         // criar nova URL (Home/Index?pagina=&pesquisa=&ordenacao=)
-        var urlComParametros = url + "?pagina=" + Pagina + "&pesquisa=" + Pesquisa + "&ordenacao=" + Ordenacao + "#posicao-produto";
+        var urlComParametros = url + "?pagina=" + Pagina + "&pesquisa=" + Pesquisa + "&ordenacao=" + Ordenacao + Fragmento;
 
         window.location.href = urlComParametros;
 

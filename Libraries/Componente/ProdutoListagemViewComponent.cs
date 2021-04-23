@@ -1,4 +1,5 @@
-﻿using LojaVirtual.Models.ViewModels;
+﻿using LojaVirtual.Models;
+using LojaVirtual.Models.ViewModels;
 using LojaVirtual.Repositories.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,9 +12,11 @@ namespace LojaVirtual.Libraries.Componente
     public class ProdutoListagemViewComponent : ViewComponent
     {
         private IProdutoRepository _produtoRepository;
-        public ProdutoListagemViewComponent(IProdutoRepository produtoRepository)
+        private ICategoriaRepository _categoriaRepository;
+        public ProdutoListagemViewComponent(IProdutoRepository produtoRepository, ICategoriaRepository categoriaRepository)
         {
             _produtoRepository = produtoRepository;
+            _categoriaRepository = categoriaRepository;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
@@ -21,6 +24,8 @@ namespace LojaVirtual.Libraries.Componente
             int? pagina = 1;
             string pesquisa = "";
             string ordenacao = "A";
+            IEnumerable<Categoria> categorias = null;
+
             if (HttpContext.Request.Query.ContainsKey("pagina"))
             {
                 pagina = int.Parse(HttpContext.Request.Query["pagina"]);
@@ -34,9 +39,16 @@ namespace LojaVirtual.Libraries.Componente
                 ordenacao = HttpContext.Request.Query["ordenacao"];
             }
 
+            if (ViewContext.RouteData.Values.ContainsKey("slug"))
+            {
+                string slug = ViewContext.RouteData.Values["slug"].ToString();
+                Categoria CategoriaPrincipal = _categoriaRepository.ObterCategoria(slug);
+                categorias = _categoriaRepository.ObterCategoriasRecursivas(CategoriaPrincipal);
+            }
+
             var viewModel = new ProdutoListagemViewModel() 
             { 
-                lista = _produtoRepository.ObterTodosProdutos(pagina, pesquisa, ordenacao)
+                lista = _produtoRepository.ObterTodosProdutos(pagina, pesquisa, ordenacao, categorias)
             };
             return View(viewModel);
         }
